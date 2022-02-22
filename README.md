@@ -1,6 +1,6 @@
 # API Authentication with JWT
 
-My take on an Authentication API using JWT (Access Token & Refresh Token) that you can use a base of your new project. 
+My take on an Authentication API using JWT (Access Token & Refresh Token) that you can use as base of your new project. 
 
 
 ## What we are be using
