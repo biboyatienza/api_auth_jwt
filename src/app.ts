@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import dotenv from 'dotenv'
 import createHttpError from 'http-errors'
 import { Server } from 'http'
+import AuthRoute from './Routes/Auth.route'
 
 dotenv.config()
 
@@ -20,6 +21,8 @@ app.get('/check', (req: Request, res: Response, next: NextFunction) => {
     message: `All OK! ${createdBy}`
   })
 })
+
+app.use('/auth', AuthRoute)
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   next(new createHttpError.NotFound())
