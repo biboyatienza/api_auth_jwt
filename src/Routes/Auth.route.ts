@@ -1,13 +1,17 @@
 import { Router, Request, Response, NextFunction } from 'express'
 import createHttpError  from 'http-errors'
 import User from '../Models/User.model'
+import authSchema from '../Helpers/UserValidationSchema.helper'
 
 const router: Router = Router()
 
 router.post('/register', async (req: Request, res: Response, next: NextFunction) => {
  try {
   const { email, password } = req.body
-  if(!email || !password) throw new createHttpError.BadRequest() 
+  const result = await authSchema.validateAsync(req.body)
+  console.log(result)
+
+  // if(!email || !password) throw new createHttpError.BadRequest() 
 
   const doesExists = await User.findOne({email: email})
   if(doesExists) throw new createHttpError.Conflict(`${email} already registered.`) 
@@ -17,8 +21,9 @@ router.post('/register', async (req: Request, res: Response, next: NextFunction)
 
   res.send(savedUser)
 
- } catch (error) {
-   next(error)
+ } catch (error: any) {
+    if (error.isJoi === true) error.status = 422
+    next(error)
  } 
 })
 
