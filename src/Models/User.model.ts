@@ -15,5 +15,6 @@ const UserSchema: Schema = new Schema({
 
 const User = moongose.model('user', UserSchema)
 
-module.exports = User
+// module.exports = User
 
+export default User

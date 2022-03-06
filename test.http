@@ -1,0 +1,16 @@
+### Is app alive?
+GET http://localhost:3001/check
+
+
+### Try invalid link | Not Found
+GET http://localhost:3001/invalid
+
+### Register a user 
+POST http://localhost:3001/auth/register
+Content-Type: application/json
+
+{
+  "email": "bboy@gmail.com",
+  "password": "password"
+}
+
