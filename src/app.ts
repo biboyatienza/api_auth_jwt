@@ -4,8 +4,11 @@ import dotenv from 'dotenv'
 import createHttpError from 'http-errors'
 import { Server } from 'http'
 import AuthRoute from './Routes/Auth.route'
+import startMongodb from './Helpers/Mongodb.helper'
 
 dotenv.config()
+startMongodb()
+
 
 const app: Express = express()
 
