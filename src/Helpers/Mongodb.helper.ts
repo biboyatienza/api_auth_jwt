@@ -1,15 +1,27 @@
 import mongoose from 'mongoose'
 
-
-async function db() {
+async function startMongoDb() {
   try {
     await mongoose
-    .connect('mongodb://localhost:27017', {dbName: 'auth_by_ca'})
+    .connect(process.env.MONGODB_URI as string, {dbName: process.env.DB_NAME})
     .then(() => {
       console.log('mongodb connected.')
     })
     .catch((err) => { console.error(err.message)})
-    } catch (e) {console.error(e)}  
+    } catch (e) {console.error(e)}
+  
+  mongoose.connection.on('error', (err) => {
+    console.error(err);
+  });
+
+  mongoose.connection.on('disconnected', () => {
+  console.warn('Mongoose connection was disconnected.');
+  });
+
+  process.on('SIGINT', async() => {
+    await mongoose.connection.close()
+    process.exit(0)
+  })
 }
 
-export default db
+export default startMongoDb
