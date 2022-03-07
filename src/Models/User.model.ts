@@ -1,4 +1,5 @@
 import moongose, { Schema } from 'mongoose'
+import bcrypt from 'bcrypt'
 
 const UserSchema: Schema = new Schema({
   email: {
@@ -10,6 +11,18 @@ const UserSchema: Schema = new Schema({
   password: {
     type: String,
     required: true
+  }
+})
+
+// Password hashing
+UserSchema.pre('save', async function(next) {
+  try {
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(this.password, salt)
+    this.password = hashedPassword
+    next()
+  } catch (error: any) {
+    next(error)
   }
 })
 
